@@ -53,6 +53,38 @@ def move_robot(position, direction):
     elif direction == "right":
         return (row, col + 1)
 
+def get_sensor_reading(grid, position):
+
+    row, col = position
+
+    sensors = {}
+
+    # Up
+    if row == 0 or grid[row - 1][col] == "X":
+        sensors["up"] = True
+    else:
+        sensors["up"] = False
+
+    # Down
+    if row == len(grid) - 1 or grid[row + 1][col] == "X":
+        sensors["down"] = True
+    else:
+        sensors["down"] = False
+
+    # Left
+    if col == 0 or grid[row][col - 1] == "X":
+        sensors["left"] = True
+    else:
+        sensors["left"] = False
+
+    # Right
+    if col == len(grid[0]) - 1 or grid[row][col + 1] == "X":
+        sensors["right"] = True
+    else:
+        sensors["right"] = False
+
+    return sensors
+
 print("Robot Environment:\n")
 
 for row in grid:
@@ -76,3 +108,12 @@ if "right" in possible_moves:
 
     print("\nRobot moved: right")
     print("New Position:", new_position)
+
+sensor_reading = get_sensor_reading(grid, new_position)
+
+print("\nSensor Reading:")
+
+print("Wall Up:", sensor_reading["up"])
+print("Wall Down:", sensor_reading["down"])
+print("Wall Left:", sensor_reading["left"])
+print("Wall Right:", sensor_reading["right"])
