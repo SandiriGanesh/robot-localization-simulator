@@ -85,6 +85,31 @@ def get_sensor_reading(grid, position):
 
     return sensors
 
+def get_possible_locations(grid):
+
+    possible_locations = []
+
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+
+            if grid[row][col] != "X":
+                possible_locations.append((row, col))
+
+    return possible_locations
+
+def filter_locations(grid, possible_locations, sensor_reading):
+
+    matching_locations = []
+
+    for location in possible_locations:
+
+        location_sensor = get_sensor_reading(grid, location)
+
+        if location_sensor == sensor_reading:
+            matching_locations.append(location)
+
+    return matching_locations
+
 print("Robot Environment:\n")
 
 for row in grid:
@@ -117,3 +142,21 @@ print("Wall Up:", sensor_reading["up"])
 print("Wall Down:", sensor_reading["down"])
 print("Wall Left:", sensor_reading["left"])
 print("Wall Right:", sensor_reading["right"])
+
+possible_locations = get_possible_locations(grid)
+
+print("\nPossible Robot Locations:")
+
+for location in possible_locations:
+    print(location)
+
+matching_locations = filter_locations(
+    grid,
+    possible_locations,
+    sensor_reading
+)
+
+print("\nLocations Matching Sensor Reading:")
+
+for location in matching_locations:
+    print(location)
