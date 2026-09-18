@@ -110,6 +110,35 @@ def filter_locations(grid, possible_locations, sensor_reading):
 
     return matching_locations
 
+def move_possible_locations(grid, possible_locations, direction):
+
+    new_locations = []
+
+    for location in possible_locations:
+
+        possible_moves = get_possible_moves(grid, location)
+
+        if direction in possible_moves:
+
+            new_position = move_robot(location, direction)
+
+            new_locations.append(new_position)
+
+    return new_locations
+
+def update_locations(grid, possible_locations, sensor_reading):
+
+    updated_locations = []
+
+    for location in possible_locations:
+
+        location_sensor = get_sensor_reading(grid, location)
+
+        if location_sensor == sensor_reading:
+            updated_locations.append(location)
+
+    return updated_locations
+
 print("Robot Environment:\n")
 
 for row in grid:
@@ -159,4 +188,27 @@ matching_locations = filter_locations(
 print("\nLocations Matching Sensor Reading:")
 
 for location in matching_locations:
+    print(location)
+
+updated_locations = move_possible_locations(
+    grid,
+    matching_locations,
+    "right"
+)
+
+print("\nPossible Locations After Moving Right:")
+
+for location in updated_locations:
+    print(location)
+
+
+localized_locations = update_locations(
+    grid,
+    updated_locations,
+    sensor_reading
+)
+
+print("\nLocations After New Sensor Reading:")
+
+for location in updated_locations:
     print(location)
